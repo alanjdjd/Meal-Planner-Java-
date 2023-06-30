@@ -12,18 +12,18 @@ public class appLoop {
         Connection con = database.connectToDatabase();
         database.createTables(con);
         Scanner scanner = new Scanner(System.in);
-        String choice = "";
         while(flag) {
             System.out.println("What would you like to do (add, show, plan, save, exit)?");
+            String choice = scanner.nextLine();
             switch (choice) {
                 case("add") -> addMeal();
                 case("show") -> show();
-                case("plan") -> showPlan();
+                case("plan") -> plan();
                 case("save") -> save();
                 case("exit") -> flag = false;
             }
-            System.out.println("Bye!");
         }
+        System.out.println("Bye!");
         con.close();
     }
 
@@ -72,7 +72,7 @@ public class appLoop {
         con.close();
 
         //GET THE BIGGEST MEAL ID
-        con = database.connectToDatabase();;
+        con = database.connectToDatabase();
         Statement stmt = con.createStatement();
         query = "SELECT meal_id FROM meals";
         ResultSet result = stmt.executeQuery(query);
@@ -88,7 +88,7 @@ public class appLoop {
         con.close();
 
         //INSERTS MEAL INGREDIENTS
-        con = database.connectToDatabase();;
+        con = database.connectToDatabase();
         String[] ingredientsArray = ingredients.split(",");
 
         query = "INSERT INTO ingredients (ingredient, meal_id) VALUES(?,?)";
@@ -129,7 +129,7 @@ public class appLoop {
 
     public static void show() throws SQLException {
         Scanner scanner = new Scanner(System.in);
-        String category = "";
+        String category;
         System.out.println("Which category do you want to print (breakfast, lunch, dinner)?");
         category = scanner.nextLine();
 
@@ -217,7 +217,7 @@ public class appLoop {
                     mealCategoryList.add(rsCategoryMeals.getString("meal"));
                     System.out.println(rsCategoryMeals.getString("meal"));
                 }
-                String choice = "";
+                String choice;
                 System.out.printf("Choose the %s for %s from the list above:\n", category, day);
                 choice = scanner.nextLine();
                 boolean isCorrect = false;
